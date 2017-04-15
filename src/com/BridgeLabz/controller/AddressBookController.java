@@ -6,27 +6,27 @@ import com.BridgeLabz.service.AddressBookImp;
 public class AddressBookController  
 {
 	AddressBook addressbook=new AddressBookImp();
-	public void addPerson()
+	public void addPerson( )
 	{
-	   addressbook.addperson();
+	   addressbook.addperson( );
     }
-	public void showAddressBook()
+	public void showAddressBook( )
 	{
 		addressbook.showaddressbook();
 	}
-	public void deletePerson()
+	public void deletePerson( )
 	{
 		addressbook.deleteperson();
 	}
-	public void editDetails()
+	public void editDetails( )
 	{
 		addressbook.editdetails();
 	}
-	public void sortByname()
+	public void sortByname( )
 	{
 		addressbook.sortByName();
 	}
-	public void sortByzip()
+	public void sortByzip( )
 	{
 		addressbook.sortByZip();
 	}

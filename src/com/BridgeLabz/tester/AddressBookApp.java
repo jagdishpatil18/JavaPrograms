@@ -19,6 +19,7 @@ public class AddressBookApp
      	 AddressBookController  controller=new AddressBookController();
 		do
 		{	
+			
 			System.out.println("1.AddressBook\n2.Add Person\n3.Delete Person\n4.Edit Details \n5.sortByName\n6.sortByZip\n7.Exit");
 		
 		    choice=sc1.nextInt();
