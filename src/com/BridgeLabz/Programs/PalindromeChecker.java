@@ -30,9 +30,9 @@ public class PalindromeChecker
 		while(!deque.isEmpty())
 		{	
 			reverse=reverse+ deque.removeLast();
-//			System.out.println(deque);
+	//		System.out.println(deque);
 		}	
-//		System.out.println(reverse);
+	//	System.out.println(reverse);
 		
 		if(reverse.equals(string))
 		{

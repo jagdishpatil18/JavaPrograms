@@ -6,6 +6,10 @@ import com.BridgeLabz.service.AddressBookImp;
 public class AddressBookController  
 {
 	AddressBook addressbook=new AddressBookImp();
+	public void createAddressbook( )
+	{
+		addressbook.createAddressbook();
+	}
 	public void addPerson( )
 	{
 	   addressbook.addperson( );

@@ -12,36 +12,35 @@ public class AddressBookApp
 		Scanner sc1=new Scanner(System.in);
 		// TODO Auto-generated method stub
 		int choice;
-		String key;
 		 
-//		 System.out.println("Enter the key");
-//		 key=sc1.nextLine();
-     	 AddressBookController  controller=new AddressBookController();
+		AddressBookController  controller=new AddressBookController();
 		do
 		{	
 			
-			System.out.println("1.AddressBook\n2.Add Person\n3.Delete Person\n4.Edit Details \n5.sortByName\n6.sortByZip\n7.Exit");
+			System.out.println("1.CreateAddressBook\n2.ShowAddressBook\n3.Add Person\n4.Delete Person\n5.Edit Details \n6.sortByName\n7.sortByZip\n8.Exit");
 		
 		    choice=sc1.nextInt();
 		
 			switch(choice)
 			{
-			case 1:  controller.showAddressBook();
+			case 1:  controller.createAddressbook();
+					 break;
+			case 2:  controller.showAddressBook();
 					 break;
 			    
-			case 2:  controller.addPerson();
+			case 3:  controller.addPerson();
 			      	 break;
-			case 3:  controller.deletePerson();
+			case 4:  controller.deletePerson();
 				     break;
-			case 4:	 controller.editDetails();
+			case 5:	 controller.editDetails();
 					 break;
-			case 5:  controller.sortByname();
+			case 6:  controller.sortByname();
 				     break;
-			case 6:  controller.sortByzip();
+			case 7:  controller.sortByzip();
 				     break;
 			default :
 			}
-		}while(choice!=7);	
+		}while(choice!=8);	
 		
 	}
 
