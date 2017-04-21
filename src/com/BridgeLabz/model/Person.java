@@ -1,8 +1,10 @@
 package com.BridgeLabz.model;
 
+
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Person 
+public class Person implements Serializable 
 {
 	private String firstname;
 	private String lastname;

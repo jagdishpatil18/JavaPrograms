@@ -1,5 +1,12 @@
 package com.BridgeLabz.service;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -8,7 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import com.BridgeLabz.model.Person;
 
-public class AddressBookImp implements AddressBook 
+public class AddressBookImp implements AddressBook
 {
 	
 	
@@ -24,12 +31,13 @@ public class AddressBookImp implements AddressBook
     @Override
 	public void createAddressbook( ) 
 	{
-		// TODO Auto-generated method stub
+		
 		System.out.println("Enter the name of address book");
 		addressbook[numberofaddressbook]=scanner.next();
 		hashmap.put(addressbook[numberofaddressbook], new LinkedList<Person>());
 		numberofaddressbook++;
-		System.out.println("New Address book created");
+		System.out.println("New Address book created ");
+	    writefile();
 	}
     
 //    To add new person in address book 
@@ -37,7 +45,8 @@ public class AddressBookImp implements AddressBook
 	@Override
 	public void addperson()
 	{ 
-			// TODO Auto-generated method stub
+		
+		readfile();
 		if(numberofaddressbook==0)
 		{	
 			System.out.println("Create new address book first");
@@ -61,7 +70,12 @@ public class AddressBookImp implements AddressBook
 			System.out.println("Choose Address Book");
 			int book=scanner.nextInt();
 			key=addressbook[book];
-		
+		if(book>=numberofaddressbook)
+		{
+				System.out.println("No such address book");
+		}	
+		else
+		{
 		person = new Person();
 		
 		System.out.println("Enter First name");
@@ -90,12 +104,52 @@ public class AddressBookImp implements AddressBook
         list.add(person);   	
         hashmap.put(key, list);
 //        showaddressbook();
-
+        writefile();
+		}
+	}
+	void writefile()
+	{
+		FileOutputStream fout = null;
+		try {
+			 fout=new FileOutputStream("/home/abc/workspace/JavaPrograms/src/com/BridgeLabz/address.txt");
+		} 
+		catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			ObjectOutputStream oout=new ObjectOutputStream(fout);
+			oout.writeObject(addressbook);
+			oout.writeInt(numberofaddressbook);
+			oout.writeObject(hashmap);
+			oout.flush();
+			oout.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	void readfile()
+	{
+		try {
+			ObjectInputStream ois=new ObjectInputStream(new FileInputStream("/home/abc/workspace/JavaPrograms/src/com/BridgeLabz/address.txt"));
+			addressbook = (String[]) ois.readObject();
+			numberofaddressbook=ois.readInt();
+		    hashmap =(HashMap)ois.readObject();
+		    ois.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
 	public void showaddressbook( )
 	{
+		 readfile();
 		System.out.println("Address Books are:");
 		for(int i=0;i<numberofaddressbook;i++)
 		{	
@@ -112,6 +166,12 @@ public class AddressBookImp implements AddressBook
 		int select=scanner.nextInt();
 		String key1=addressbook[select];
 		LinkedList<Person> list= hashmap.get(key1);
+		if(select>=numberofaddressbook)
+		{
+			System.out.println("No such address book");
+		}	
+		else
+		{
     	System.out.println("Firstname \tLastname\t Address\t City \t\t State\t\t Zipcode\t\t Phoneno\n");
  //   	hashmap.forEach((k,v)->System.out.println( v));
 //		}
@@ -125,7 +185,7 @@ public class AddressBookImp implements AddressBook
     		System.out.print("\t\t"+hashmap.get(key1).get(i).getZipcode());
     	 	System.out.println("\t\t"+hashmap.get(key1).get(i).getPhoneno());
     	     }  
-		
+		}
      }
 	
 //   To delete a person's record from address book
@@ -133,7 +193,7 @@ public class AddressBookImp implements AddressBook
 	@Override
 	public void deleteperson( ) 
 	{
-		
+		readfile();
 		System.out.println("Address Books are:");
 		for(int i=0;i<numberofaddressbook;i++)
 		{	
@@ -144,27 +204,39 @@ public class AddressBookImp implements AddressBook
 		int select=scanner.nextInt();
 		String key1=addressbook[select];
 		LinkedList<Person> list= hashmap.get(key1);
-		System.out.println("Enter the name of person you want to delete");
-		String name=scanner.next();
-		
-
-		for(int i=0;i<list.size();i++)
+		if(select>=numberofaddressbook)
 		{
-			String s=hashmap.get(key1).get(i).getFirstname();
-			if(s.equals(name))
-			{
-				list.remove(hashmap.get(key1).get(i));
-				return;
-			}	
+			System.out.println("No such address book");
+		}	
+		else
+		{
+				System.out.println("Enter the name of person you want to delete");
+				String name=scanner.next();
+		
+				int flag=0;
+				for(int i=0;i<list.size();i++)
+				{
+					String s=hashmap.get(key1).get(i).getFirstname();
+					if(s.equals(name))
+					{
+						flag=1;
+						list.remove(hashmap.get(key1).get(i));
+						writefile();
+						return;
+					}	
 			
 		}
-	   System.out.println("No such a person in your contact list");
-	  
+				if(flag==0)
+				{	
+					System.out.println("No such a person in your contact list");
+				}	
+		}
 	}
 //   To edit the details of exiting persons record
 	@Override
 	public void editdetails( ) 
 	{
+		readfile();
 		System.out.println("Address Books are:");
 		for(int i=0;i<numberofaddressbook;i++)
 		{	
@@ -175,8 +247,15 @@ public class AddressBookImp implements AddressBook
 		int select=scanner.nextInt();
 		String key1=addressbook[select];
 		LinkedList<Person> list= hashmap.get(key1);
+		if(select>=numberofaddressbook)
+		{
+			System.out.println("No such address book");
+		}	
+		else 
+		{
 		System.out.println("Enter the name of person whose details you want to edit");
 		String fname= scanner.next();
+		int flag=0;
 		for(int i=0;i<list.size();i++)
 		{
 			String s=hashmap.get(key1).get(i).getFirstname();
@@ -184,7 +263,7 @@ public class AddressBookImp implements AddressBook
 			{
 				int ch;
 	//			Person obj=hashmap.get(key).get(i);
-		
+				flag=1;
 				do
 				{  
 					System.out.println("1.Edit Address\n2.Edit City\n3.Edit State\n4.Edit Zipcode\n5.Edit Phone no\n6.Exit");
@@ -214,16 +293,63 @@ public class AddressBookImp implements AddressBook
 				    default :		
 				    }
 				}while(ch!=6);
+				writefile();
 			}	
-		
+			
 		}
-		//		System.out.println("No such a person in your contact list");
-
+			if(flag==0)
+			System.out.println("No such a person in your contact list");
+		}	
 	}
-
+	public void search()
+	{
+		readfile();
+		System.out.println("Address Books are:");
+		for(int i=0;i<numberofaddressbook;i++)
+		{	
+			System.out.println(i+"  "+addressbook[i]);
+			
+		}
+		System.out.println("Choose Address Book");
+		int select=scanner.nextInt();
+		String key1=addressbook[select];
+		LinkedList<Person> list= hashmap.get(key1);
+		if(select>=numberofaddressbook)
+		{
+			System.out.println("No such address book");
+		}	
+		else
+		{	
+		System.out.println("Enter the contact number to search ");
+		long mbno= scanner.nextLong();
+		int flag=0;
+		for(int i=0;i<list.size();i++)
+		{
+			long value=hashmap.get(key1).get(i).getPhoneno();
+			
+			if(mbno==value)
+			{
+				System.out.println("Person is searched successfully");
+				flag=1;
+			System.out.println("Contact Details are :");
+			System.out.println("FirstName\tLastName\tAddress\t\tCity");
+			System.out.print(list.get(i).getFirstname());
+			System.out.print("\t\t"+list.get(i).getLastname());
+			System.out.print("\t\t"+list.get(i).getAddress());
+			System.out.println("\t\t"+list.get(i).getCity());
+			System.out.println();
+		    }
+			
+		}
+		if(flag==0)
+			System.out.println("Not Found in your contact list");
+	
+		}
+	}	
 	@Override
 	public void sortByName( ) 
 	{    
+		readfile();
 		System.out.println("Address Books are:");
 		for(int i=0;i<numberofaddressbook;i++)
 		{	
@@ -233,14 +359,31 @@ public class AddressBookImp implements AddressBook
 		System.out.println("Choose Address Book");
 		int select=scanner.nextInt();
 		String key1=addressbook[select];
-		LinkedList<Person> arraylist=hashmap.get(key1);
-		Collections.sort(arraylist, Person.comparatorname);
-		 
+		LinkedList<Person> list=hashmap.get(key1);
+		Collections.sort(list, Person.comparatorname);
+	//	showaddressbook();
+		
+			System.out.println("Firstname \tLastname\t Address\t City \t\t State\t\t Zipcode\t\t Phoneno\n");
+     	   	for(int i=0;i<list.size();i++)
+		    {	
+			    		System.out.print(hashmap.get(key1).get(i).getFirstname());
+			    		System.out.print("\t\t"+hashmap.get(key1).get(i).getLastname());
+			    		System.out.print("\t\t"+hashmap.get(key1).get(i).getAddress());
+			    		System.out.print("\t\t"+hashmap.get(key1).get(i).getCity());
+			    		System.out.print("\t\t"+hashmap.get(key1).get(i).getState());
+			    		System.out.print("\t\t"+hashmap.get(key1).get(i).getZipcode());
+			    	 	System.out.println("\t\t"+hashmap.get(key1).get(i).getPhoneno());
+    	     }  
+     	   
+			
+		 writefile();
+	
 	}
 
 	@Override
 	public void sortByZip( ) 
 	{
+		readfile();
 		System.out.println("Address Books are:");
 		for(int i=0;i<numberofaddressbook;i++)
 		{	
@@ -251,9 +394,20 @@ public class AddressBookImp implements AddressBook
 		int select=scanner.nextInt();
 		String key1=addressbook[select];
 		
-		LinkedList<Person> arraylist=hashmap.get(key1);
-		Collections.sort(arraylist, Person.comparatorzip);
-		
+		LinkedList<Person> list=hashmap.get(key1);
+		Collections.sort(list, Person.comparatorzip);
+		System.out.println("Firstname \tLastname\t Address\t City \t\t State\t\t Zipcode\t\t Phoneno\n");
+ 	   	for(int i=0;i<list.size();i++)
+	    {	
+		    		System.out.print(hashmap.get(key1).get(i).getFirstname());
+		    		System.out.print("\t\t"+hashmap.get(key1).get(i).getLastname());
+		    		System.out.print("\t\t"+hashmap.get(key1).get(i).getAddress());
+		    		System.out.print("\t\t"+hashmap.get(key1).get(i).getCity());
+		    		System.out.print("\t\t"+hashmap.get(key1).get(i).getState());
+		    		System.out.print("\t\t"+hashmap.get(key1).get(i).getZipcode());
+		    	 	System.out.println("\t\t"+hashmap.get(key1).get(i).getPhoneno());
+	     }  
+		writefile();
 	   
 	}
 

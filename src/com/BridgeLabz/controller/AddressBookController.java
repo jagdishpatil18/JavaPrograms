@@ -34,4 +34,8 @@ public class AddressBookController
 	{
 		addressbook.sortByZip();
 	}
+	public void Search()
+	{
+		addressbook.search();
+	}
 }

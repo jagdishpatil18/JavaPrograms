@@ -16,8 +16,8 @@ public class AddressBookApp
 		AddressBookController  controller=new AddressBookController();
 		do
 		{	
-			
-			System.out.println("1.CreateAddressBook\n2.ShowAddressBook\n3.Add Person\n4.Delete Person\n5.Edit Details \n6.sortByName\n7.sortByZip\n8.Exit");
+			System.out.println();
+			System.out.println("1.CreateAddressBook\n2.ShowAddressBook\n3.Add Person\n4.Delete Person\n5.Edit Details \n6.sortByName\n7.sortByZip\n8.Search\n9..Exit");
 		
 		    choice=sc1.nextInt();
 		
@@ -38,9 +38,10 @@ public class AddressBookApp
 				     break;
 			case 7:  controller.sortByzip();
 				     break;
+			case 8: controller.Search();	     
 			default :
 			}
-		}while(choice!=8);	
+		}while(choice!=9);	
 		
 	}
 

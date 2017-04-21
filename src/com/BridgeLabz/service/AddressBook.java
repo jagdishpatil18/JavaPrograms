@@ -10,4 +10,6 @@ public interface AddressBook
 	void sortByName( );
 	void sortByZip( );
 	
+	void search();
+	
 }
