@@ -1,0 +1,64 @@
+{
+	"Rice":[
+			{
+				"name":"Basmati Rice",
+				"weight":5,
+				"price/kg":120
+			},
+			{
+				"name":"Chinore Rice",
+				"weight":50,
+				"price/kg":70
+			},
+			{
+				"name":"HMT Rice",
+				"weight":25,
+				"price/kg":60
+			},
+
+			{
+				"name":"Sungandhi Chinore",
+				"weight":30,
+				"price/kg":75
+			}
+		  ],
+					
+	"Pulses":[
+			  {
+				"name":"Moong Dal",
+				"weight":10,
+				"price/kg":150
+			  },
+	   		  {
+				"name":"Udad Dal",
+				"weight":5,
+				"price/kgkg":200
+			  },
+			  {
+				"name":"Toor Dal",
+				"weight":15,
+				"price/kg":140
+			  }
+		  ],
+					
+							
+	"Wheat":[
+			 {
+				"name":"Lokwan Wheat",
+				"weight":50,
+				"price/kg":30
+			},
+			{
+				"name":"MP Boat Wheat",
+				"weight":50,
+				"price/kg":25
+			},
+			{
+				"name":"MP Wheat",
+				"weight":30,
+				"price/kg":10
+			}
+		   ]
+					
+				
+}
